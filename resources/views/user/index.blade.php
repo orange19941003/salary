@@ -53,6 +53,8 @@ layui.use('table', function(){
 	      	,{field: 'email', title: '邮箱', width:100}
 	      	,{field: 'addrres', title: '发币地址', align:'center',width:200, templet: "#addrres", style:"height:110px", class:"addrres"}
 	      	,{field: 'salary', title: '薪资(￥)', width:100}
+	      	,{field: 'cny_to_usd_rate', title: '实时汇率', width:100}
+	      	,{field: 'usd_salary', title: '薪资($)', width:100}
 	      	,{field: 'salary_type_text', title: '计薪方式', width:100}
 	      	,{field: 'created_at', title: '创建时间', width:150}
 	      	,{field: 'updated_at', title: '修改时间', width:150}

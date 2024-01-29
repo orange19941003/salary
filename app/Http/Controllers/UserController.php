@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Base;
 use App\Http\Enums\admin\AdminEnum;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Base
 {
@@ -26,6 +27,19 @@ class UserController extends Base
     	$count = $data['total'] ? $data['total'] : 0;
     	$data = $data['data'] ? $data['data'] : [];
         $data = array_map(function($val){
+            $cny_to_usd_rate = Cache::get('cny_to_usd_rate', '');
+            if ($cny_to_usd_rate == '')
+            {
+                $msg = '';
+                $cny_to_usd_rate = nowapiRequest($msg);
+                $cny_to_usd_rate = round($cny_to_usd_rate['rate'], 2);
+                if ($msg == '')
+                {
+                    Cache::set('cny_to_usd_rate', $cny_to_usd_rate, 600);
+                }
+            }
+            $val['cny_to_usd_rate'] = $cny_to_usd_rate;
+            $val['usd_salary'] = round($val['salary'] / $cny_to_usd_rate, 2);
             $val['salary_type_text'] = AdminEnum::$GAlARY_TYPE_OPTIONS[$val['salary_type']] ?? '';
 
             return $val;
