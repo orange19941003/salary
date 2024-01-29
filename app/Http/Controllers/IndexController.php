@@ -8,6 +8,6 @@ class IndexController extends Base
 {
     public function index()
     {
-    	return view('index', $this->data);
+    	return view('Index', $this->data);
     }
 }
