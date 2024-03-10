@@ -26,6 +26,8 @@
         <div class="layui-input-inline" style="width:50%;">
             <input type="radio" name="salary_type" value="1" title="周薪" @if($user->salary_type == 1)checked="checked"@endif>
             <input type="radio" name="salary_type" value="2" title="时薪"  @if($user->salary_type == 2)checked="checked"@endif>
+            <input type="radio" name="salary_type" value="3" title="月薪"  @if($user->salary_type == 3)checked="checked"@endif>
+    
         </div>
     </div>
     <div class="layui-form-item">
@@ -66,6 +68,10 @@
                         layer.msg(res.msg);
                         parent.location.reload()
                     }
+                },
+                //请求失败，包含具体的错误信息
+                error: function (e) {
+                    layer.msg("未知错误");
                 }
             })
         })

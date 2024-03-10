@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Base;
 use App\Http\Enums\admin\AdminEnum;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 
 class UserController extends Base

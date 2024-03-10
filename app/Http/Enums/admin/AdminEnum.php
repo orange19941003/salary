@@ -31,10 +31,13 @@ class AdminEnum
 
     const GAlARY_TYPE_WEEK = 1;
     const GAlARY_TYPE_HOUR = 2;
+    const GAlARY_TYPE_MONTH = 3;
 
     public static $GAlARY_TYPE_OPTIONS = [
         self::GAlARY_TYPE_WEEK    => '周薪',
         self::GAlARY_TYPE_HOUR    => '时薪',
+        self::GAlARY_TYPE_MONTH    => '月薪',
+
     ];
 
 }
