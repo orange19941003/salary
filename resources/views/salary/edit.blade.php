@@ -41,7 +41,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">发币地址</label>
         <div class="layui-input-block" id="address" style="width:50%;">
-            <img src="http://chart.apis.google.com/chart?chs=100x100&cht=qr&chld=L|0&chl={{$salary->addrres}}" alt="QR code" style="width: 100px;height:100px;margin-top:10px"/>
+            <div id="qrcode"></div>
         </div>
     </div>
     <div class="layui-form-item">
@@ -53,7 +53,18 @@
 </form>
 @endsection
 @section('script')
+<script src="{{asset('js/qrcode.min.js') . '?version=' . config('app.version')}}"></script>
+
     <script type="text/javascript">
+        // 创建一个新的QR码  
+        new QRCode(document.getElementById("qrcode"), {  
+            text: '{{$salary->addrres}}', // 你要编码的文本  
+            width: 128, // QR码的宽度  
+            height: 128, // QR码的高度  
+            colorDark : "#000000", // 深色部分的颜色  
+            colorLight : "#ffffff", // 浅色部分的颜色  
+            correctLevel : QRCode.CorrectLevel.H // 纠错级别  
+        }); 
         var form = layui.form,
         $ = layui.jquery;
         layui.use('form', function () {
@@ -65,8 +76,16 @@
                 var address = data[1]
                 if (user_id != 0)
                 {
-                    var html = '<img src="http://chart.apis.google.com/chart?chs=100x100&cht=qr&chld=L|0&chl=' + address + '" alt="QR code" style="width: 100px;height:100px;margin-top:10px"/>'
-                    $("#address").html(html)
+                    $("#qrcode").html('')
+                    // 创建一个新的QR码  
+                    new QRCode(document.getElementById("qrcode"), {  
+                            text: address, // 你要编码的文本  
+                            width: 128, // QR码的宽度  
+                            height: 128, // QR码的高度  
+                            colorDark : "#000000", // 深色部分的颜色  
+                            colorLight : "#ffffff", // 浅色部分的颜色  
+                            correctLevel : QRCode.CorrectLevel.H // 纠错级别  
+                        }); 
                 }
                 else
                 {

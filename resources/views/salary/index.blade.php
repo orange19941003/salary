@@ -30,9 +30,7 @@
 @endsection
   
 @section('script')
-<script type="text/html" id="addrres">
-        <img src="http://chart.apis.google.com/chart?chs=100x100&cht=qr&chld=L|0&chl=@{{d.addrres}}" alt="QR code" style="width: 100px;height:100px;margin-top:10px"/>
-</script>
+<script src="{{asset('js/qrcode.min.js') . '?version=' . config('app.version')}}"></script>
 <script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 </script>
@@ -60,12 +58,28 @@ layui.use('table', function(){
 	      	,{field: 'amount', title: '薪水（￥）', width:100}
 	      	,{field: 'cny_to_usd_rate', title: '汇率', width:100}
 	      	,{field: 'usd_salary', title: '薪水（$）', width:100}
-	      	,{field: 'addrres', title: '发币地址', align:'center',width:200, templet: "#addrres", style:"height:110px", class:"addrres"}
+	      	,{title: '发币地址', align:'center'}
 	      	,{field: 'start_date', title: '该周开始时间', width:100}
 	      	,{field: 'end_date', title: '该周结束时间', width:100}
 	      	,{field: 'created_at', title: '创建时间', width:150}
 	      	,{field: 'updated_at', title: '修改时间', width:150}
 	    ]]
+      ,done: function (res, curr, count) {
+        tableList = res.data;
+        var that = this.elem.next()
+        res.data.forEach(function (item, index) {
+            var tr = that.find(".layui-table-box tbody tr[data-index=" + index + "]")
+            var td = tr.find('.laytable-cell-1-0-4')//需要展示二维码的列，从0开始
+            new QRCode($(td)[0], {  
+                text: item.addrres, // 你要编码的文本  
+                width: 128, // QR码的宽度  
+                height: 128, // QR码的高度  
+                colorDark : "#000000", // 深色部分的颜色  
+                colorLight : "#ffffff", // 浅色部分的颜色  
+                correctLevel : QRCode.CorrectLevel.H // 纠错级别  
+            });  
+        })
+      }
 	});
   }
 

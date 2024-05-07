@@ -33,7 +33,7 @@ class SalaryController extends Base
     	$data = $data['data'] ? $data['data'] : [];
         $data = array_map(function($val){
             $val['name'] = User::getUserById($val['user_id'])['name'] ?? '';
-            $val['addrres'] = User::getUserById($val['id'])['addrres'] ?? '';
+            $val['addrres'] = User::getUserById($val['user_id'])['addrres'] ?? '';
 
             return $val;
         }, $data);
@@ -109,12 +109,14 @@ class SalaryController extends Base
     {
         $users = User::getAll();
         $this->data['users'] = $users;
+        $user_map = array_column($users->toArray(), 'addrres', 'id');
     	$salaryModel = new salary;
         $salary = $salaryModel->getsalaryInfo($id);
         if (!$salary)
         {
         	return $this->error("无效的id");
         }
+        $salary['addrres'] = $user_map[intval($salary['user_id'])] ?? '';
         $salary['salary_date'] = substr($salary['start_date'], 0, 10) . ' - ' . substr($salary['end_date'], 0, 10); 
         //用户的角色
         $this->data['salary'] = $salary;

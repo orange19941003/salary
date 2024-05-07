@@ -23,13 +23,15 @@
 @endsection
   
 @section('script')
-<script type="text/html" id="addrres">
-        <img src="http://chart.apis.google.com/chart?chs=100x100&cht=qr&chld=L|0&chl=@{{d.addrres}}" alt="QR code" style="width: 100px;height:100px;margin-top:10px"/>
-</script>
+<script src="{{asset('js/qrcode.min.js') . '?version=' . config('app.version')}}"></script>
+
 <script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+<script>  
+ 
+</script> 
 <script>
 layui.use('table', function(){
   var table = layui.table;
@@ -51,7 +53,7 @@ layui.use('table', function(){
 	      	,{field: 'id', title: 'ID',sort: true, align: 'left', width:100, style:"height:110px"}
 	      	,{field: 'name', title: '员工名', width:100}
 	      	,{field: 'email', title: '邮箱', width:100}
-	      	,{field: 'addrres', title: '发币地址', align:'center',width:200, templet: "#addrres", style:"height:110px", class:"addrres"}
+	      	,{title: '发币地址', align:'center'} 
 	      	,{field: 'salary', title: '薪资(￥)', width:100}
 	      	,{field: 'cny_to_usd_rate', title: '实时汇率', width:100}
 	      	,{field: 'usd_salary', title: '薪资($)', width:100}
@@ -60,6 +62,22 @@ layui.use('table', function(){
 	      	,{field: 'updated_at', title: '修改时间', width:150}
 	      	,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
 	    ]]
+      ,done: function (res, curr, count) {
+        tableList = res.data;
+        var that = this.elem.next()
+        res.data.forEach(function (item, index) {
+            var tr = that.find(".layui-table-box tbody tr[data-index=" + index + "]")
+            var td = tr.find('.laytable-cell-1-0-4')//需要展示二维码的列，从0开始
+            new QRCode($(td)[0], {  
+                text: item.addrres, // 你要编码的文本  
+                width: 128, // QR码的宽度  
+                height: 128, // QR码的高度  
+                colorDark : "#000000", // 深色部分的颜色  
+                colorLight : "#ffffff", // 浅色部分的颜色  
+                correctLevel : QRCode.CorrectLevel.H // 纠错级别  
+            });  
+        })
+      }
 	});
   }
 

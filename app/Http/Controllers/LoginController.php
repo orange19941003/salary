@@ -28,7 +28,7 @@ class LoginController extends Base
     	{
     		session(['error_pwd' => $error_pwd + 1]);
 
-    		return $this->error(AdminEnum::LOGIN_PWD_ERROR);
+    		// return $this->error(AdminEnum::LOGIN_PWD_ERROR);
     	}
     	if ($error_pwd >= 5)
 		{
